@@ -1,0 +1,1 @@
+import pandas as pd; pd.merge(pd.read_csv('laptops.csv'), pd.read_csv('inventory.csv'), on='laptop_id').to_csv('merged.csv', index=False)
