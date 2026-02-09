@@ -1,0 +1,86 @@
+body{
+    background-color: rgb(33 33 33);
+}
+
+.page{
+  background-color: rgb(33 33 33);
+}
+
+
+.main{
+  background-color: rgb(33 33 33);
+}
+
+.ByteBuy{
+  color: rgb(196, 196, 196);
+  border-color: rgb(48, 48, 48);
+  background-color: rgb(48, 48, 48);
+}
+
+button.theme{
+  background-color: rgb(48, 48, 48);
+  color: rgb(255, 255, 255);
+}
+
+.side{
+  background-color: rgb(26, 26, 26);
+  border-color: rgb(48, 48, 48);
+  outline-color: rgb(89, 89, 89);
+}
+
+.inventoryItem{
+  background-color: rgb(48, 48, 48);
+}
+
+.laptopImage{
+  border-color: rgb(196, 196, 196);
+}
+
+.num{
+  color: rgb(196, 196, 196);
+}
+
+p.description{
+  color: rgb(196, 196, 196);
+}
+
+p.inv{
+  background-color: rgb(48, 48, 48);
+}
+
+span.inv{
+  color: rgb(196, 196, 196);
+}
+
+/*.sidebar{
+  border-color: rgb(89, 89, 89);
+  color:  rgb(122, 122, 122);
+}*/
+
+.textbox{
+  background-color: rgb(48, 48, 48);
+  color: rgb(196, 196, 196);
+  border-color:  rgb(48, 48, 48);
+  outline-color: rgb(89, 89, 89);
+}
+
+p.send{
+  color: rgb(196, 196, 196);
+  background-color: rgb(48, 48, 48);
+  border-color:  rgb(48, 48, 48);
+  outline-color: rgb(89, 89, 89);
+}
+
+img.light {
+  display: none;
+}
+
+img.dark{
+  display: block;
+  width: 100px;
+  margin: auto;
+}
+
+.logotext{
+  color: rgb(196, 196, 196);
+}

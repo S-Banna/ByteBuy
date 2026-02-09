@@ -3,16 +3,19 @@
 
 <head>
     <title>ByteBuy</title>
-    <link rel="stylesheet" href="ByteBuy.css">
-    <link rel="icon" type="images/png" href="icon.png">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="light.css" id="theme">
+    <link rel="icon" type="images/png" href="icon-dark.png">
 </head>
 
 <body>
+    <script src="theme.js"> </script>
+
     <div class="page">
 
-        <div class="sidebar">
+        <!--div class="sidebar">
             ☰
-        </div>
+        </div-->
 
         <div class="side">
             <p class="inv"><span class="inv">Inventory</span></p>
@@ -157,18 +160,21 @@
             </div>
         </div>
 
-
         <div class="main">
-            <p class="ByteBuy">ByteBuy</p>
+            <div class="darkmode">
+                <p class="ByteBuy">ByteBuy</p>
+                <button class="theme" onclick="toggleTheme()">⏾/☀︎</button>
+            </div>
+
             <br>
-            <img class="logo" src="icon.png">
+            <img class="light" src="icon-light.png">
+            <img class="dark" src="icon-dark.png">
             <p class="logotext">What do you need help with?</p>
         </div>
 
-
         <div class="text">
             <input placeholder="Ask anything..." class="textbox">
-            <div class="send">➤</div><br><br>
+            <p class="send">▲</p>
         </div>
     </div>
 
