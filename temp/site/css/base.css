@@ -28,6 +28,10 @@ body{
   border: solid;
   border-width: 10px;
   border-radius: 15px;
+
+  outline: solid;
+  outline-width: 1px;
+
 }
 
 button.theme{
@@ -37,8 +41,8 @@ button.theme{
   height: 30px;
   width: 50px;
   
-  border: none;
-  border-width: 5px;
+  border: solid;
+  border-width: 1px;
   border-radius: 20px;
 }
 
@@ -149,6 +153,7 @@ p.send{
 
   outline: solid;
   outline-width: 1px;
+
 }
 
 .logotext{

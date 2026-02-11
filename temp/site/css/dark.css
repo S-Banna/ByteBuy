@@ -12,20 +12,24 @@ body{
 }
 
 .ByteBuy{
-  color: rgb(196, 196, 196);
+  color: rgb(207, 207, 207);
   border-color: rgb(48, 48, 48);
   background-color: rgb(48, 48, 48);
+  text-shadow: 1px 1px 5px rgb(145, 145, 145); 
+  outline-color: rgb(73, 73, 73);
 }
 
 button.theme{
   background-color: rgb(48, 48, 48);
   color: rgb(255, 255, 255);
+  border-color: rgb(73, 73, 73);
+  text-shadow: 1px 1px 5px;
 }
 
 .side{
   background-color: rgb(26, 26, 26);
   border-color: rgb(48, 48, 48);
-  outline-color: rgb(89, 89, 89);
+  outline-color: rgb(73, 73, 73);
 }
 
 .inventoryItem{
@@ -61,14 +65,16 @@ span.inv{
   background-color: rgb(48, 48, 48);
   color: rgb(196, 196, 196);
   border-color:  rgb(48, 48, 48);
-  outline-color: rgb(89, 89, 89);
+  outline-color: rgb(73, 73, 73);
 }
 
 p.send{
-  color: rgb(196, 196, 196);
+  color: rgb(182, 182, 182);
   background-color: rgb(48, 48, 48);
   border-color:  rgb(48, 48, 48);
-  outline-color: rgb(89, 89, 89);
+  outline-color: rgb(73, 73, 73);
+
+  -webkit-text-stroke: 4px rgb(182, 182, 182);
 }
 
 img.light {

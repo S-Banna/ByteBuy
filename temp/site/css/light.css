@@ -15,17 +15,20 @@ body{
   color: rgb(58, 58, 58);
   border-color: rgb(213, 213, 213);
   background-color: rgb(213, 213, 213);
+  outline-color: rgb(140, 140, 140);    
 }
 
 button.theme{
   background-color: rgb(213, 213, 213);
-  color: black;
+  color: rgb(58, 58, 58);
+  border-color: rgb(140, 140, 140);
+
 }
 
 .side{
   background-color: rgb(255, 255, 255);
   border-color: rgb(213, 213, 213);
-  outline-color: rgb(124, 124, 124);
+  outline-color: rgb(140, 140, 140);
 }
 
 .inventoryItem{
@@ -65,10 +68,13 @@ span.inv{
 }
 
 p.send{
-  color: rgb(124, 124, 124);
+  color: rgb(62, 62, 62);
   background-color: rgb(255, 255, 255);
   border-color:  rgb(255, 255, 255);
   outline-color: rgb(124, 124, 124);
+
+  
+  -webkit-text-stroke: 4px rgb(61, 61, 61);
 }
 
 img.light {
