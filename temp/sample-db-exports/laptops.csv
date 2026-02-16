@@ -1,0 +1,11 @@
+laptop_id,brand_id,model,cpu,gpu,ram_gb,storage_gb,storage_type,screen_size,os
+1,1,XPS 15,Intel i7-12700H,RTX 3050,16,1000,NVMe,15.6,Windows 11
+2,1,Inspiron 15,Intel i5-1235U,Intel Iris Xe,8,512,SSD,15.6,Windows 11
+3,2,Pavilion Gaming,Ryzen 5 5600H,GTX 1650,16,512,SSD,15.6,Windows 11
+4,2,EliteBook 840,Intel i7-1165G7,Intel Iris Xe,16,512,SSD,14.0,Windows 11
+5,3,Legion 5,Ryzen 7 5800H,RTX 3060,16,1000,NVMe,15.6,Windows 11
+6,3,ThinkPad X1 Carbon,Intel i7-1260P,Intel Iris Xe,16,1000,NVMe,14.0,Windows 11
+7,4,ROG Strix G15,Ryzen 9 5900HX,RTX 3070,32,1000,NVMe,15.6,Windows 11
+8,4,VivoBook 14,Intel i5-1135G7,Intel Iris Xe,8,512,SSD,14.0,Windows 11
+9,5,Nitro 5,Intel i7-11800H,RTX 3060,16,1000,NVMe,15.6,Windows 11
+10,6,MacBook Air M1,Apple M1,Integrated,8,256,SSD,13.3,macOS
