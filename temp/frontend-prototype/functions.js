@@ -122,7 +122,7 @@ function toggleTheme() {
 var count = 0;
 
 function add() {
-  if(count==laptops.length) return;
+  if (count == laptops.length) return;
   side = document.getElementById("side");
 
   let newItem = document.createElement("div");
@@ -185,4 +185,32 @@ function deleteItem(id) {
   let item = document.getElementById(id);
   item.remove();
   count--;
+}
+
+function clearMain() {
+  document.getElementById("light").style.display = "none";
+  document.getElementById("dark").style.display = "none";
+
+  document.getElementById("logotext").style.display = "none";
+
+  document.getElementById("message1").style.display = "block";
+
+  document.getElementById("textbox").value = "";
+  document.getElementById("message1").style.display = "block";
+
+  secondMsg();
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function secondMsg() {
+  await sleep(2000); 
+
+  let firstMsg = document.getElementById("message1");
+  firstMsg.style.bottom = "28%";
+
+  let secMsg = document.getElementById("message2");
+  secMsg.style.display = "block";
 }

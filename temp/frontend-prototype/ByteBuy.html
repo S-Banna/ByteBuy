@@ -25,18 +25,25 @@
             <div class="darkmode">
                 <p class="ByteBuy"><a class="link" href>ByteBuy</a></p>
                 <button class="theme" onclick="toggleTheme()">⏾/☀︎</button>
-                <button class="add" onclick="add()">add</button>
             </div>
 
             <br>
-            <img class="light" src="images/icon-light.png">
-            <img class="dark" src="images/icon-dark.png">
-            <p class="logotext">What do you need help with?</p>
+            <img id="light" src="images/icon-light.png">
+            <img id="dark" src="images/icon-dark.png">
+            <p id="logotext">What do you need help with?</p>
+
+            <p id="message1">Hello i need a gaming laptop.</p>
+
+            <p id="message2">Here are some suggestions:<button class="add" onclick="add()">+ add suggestion</button></p>
+
         </div>
 
         <div class="text">
-            <input placeholder="Ask anything..." class="textbox">
-            <p class="send"></p>
+            <input placeholder="Ask anything..." id="textbox">
+            <div class="send">
+                <img onclick="clearMain()" class="send_dark" src="images/send_dark.svg">
+                <img onclick="clearMain()" class="send_light" src="images/send_light.svg">
+            </div>
         </div>
     </div>
 

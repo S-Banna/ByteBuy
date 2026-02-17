@@ -64,30 +64,43 @@ span.inv{
   color:  rgb(122, 122, 122);
 }*/
 
-.textbox{
+#textbox{
   background-color: rgb(213, 213, 213);
   color: rgb(73, 73, 73);
   border-color:  rgb(213, 213, 213);
   outline-color: rgb(124, 124, 124);
 }
 
-p.send{
+.send{
   color: rgb(62, 62, 62);
   background-color: rgb(213, 213, 213);
   border-color:  rgb(213, 213, 213);
   outline-color: rgb(124, 124, 124);
 }
 
-img.light {
+#light {
   display: block;
   width: 100px;
   margin: auto;
 }
 
-img.dark{
+#dark{
   display: none;
 }
 
-.logotext{
+#logotext{
   color: rgb(73, 73, 73);
+}
+
+.send_light {
+  display: block;
+}
+
+.send_dark{
+  display: none;
+}
+
+#message1, #message2{
+  background-color: rgb(213, 213, 213);
+  color: rgb(73, 73, 73); 
 }
