@@ -46,7 +46,18 @@ button.theme{
   border-radius: 20px;
 }
 
-.side{
+.add{
+  width: 190px;
+  height: 60px;
+  margin-left: 25px;
+  margin-top: 5px;
+  border-radius: 10px;
+  background-color: rgb(0, 204, 0);
+  border: solid;
+  border-color: rgb(0, 255, 0);
+}
+
+#side{
   overflow: scroll;
   width: 25%;
   height: 91.5%;
@@ -69,6 +80,8 @@ button.theme{
   margin: auto;
   height: 160px;
   display: flex;
+  justify-content:space-around;
+  gap: 1px;
   margin-bottom: 5%;
   margin-top: -2.5%;
 }
@@ -76,8 +89,9 @@ button.theme{
 .laptopImage{
   height: 50%;
   border-right: solid;
-  padding: 5px;
-  margin-top: 8%;
+  padding-right: 5px;
+  margin-top: 35px;
+  margin-left: 5px;;
 }
 
 .num{
@@ -85,17 +99,41 @@ button.theme{
   margin-top: 2%;
 }
 
-p.description{
+.description{
   float: right;
-  margin-left: 10px;
+  margin-left: 8px;
   margin-top: 1%;
+  width: 70%;
+}
+
+.delete{
+  height: 27px;
+  width: 25px;
+  margin-top: 5px;
+  margin-right: 5px; 
+  border-radius: 5px;
+  background-color: rgb(212, 0, 0);
+  display: flex;
+  justify-content: center;
+  border: solid;
+  border-width: 2px;
+  border-color: rgb(255, 38, 38);
+}
+
+.delete:hover{
+  background-color: rgb(255, 0, 0);
+}
+
+.trash{
+  width: 20px;
+  height: 20px;
+  margin: auto;
 }
 
 p.inv{
   text-align: center;
   margin-top: -2%;
   font-size: 20px;
-
   padding: 5px;
 }
 
@@ -122,9 +160,8 @@ p.inv{
   display: flex;
 }
 
-.textbox{
+#textbox{
   margin-left: 20px;
-  margin-right: 10px;;
   font-size: 20px;
   border: solid;
   outline: none;
@@ -134,20 +171,16 @@ p.inv{
   border-width: 20px;
   border-radius: 30px 0px 0px 30px;
 
-    outline: solid;
+  outline: solid;
   outline-width: 1px;
 }
 
-p.send{
+.send{
   height: 100%;
-  margin: 0;
-  margin-left: -3px;
   float: right;
-  font-size: 30px;
-  font-weight: bolder;
+  width: 30px;
 
   padding-bottom: 9px;
-  padding-right: 3px;
 
   border: solid;
   border-width: 20px;
@@ -155,9 +188,19 @@ p.send{
 
   outline: solid;
   outline-width: 1px;
+
+  display: flex;
+  justify-content:  center;
+  
 }
 
-.logotext{
+.send_light, .send_dark{
+  margin-top: -10px;
+  height: 50px;
+
+}
+
+#logotext{
   font-size: 30px;
   text-align: center;
 }
@@ -166,3 +209,39 @@ p.send{
   text-decoration: none;
   color: inherit;
 }
+
+#message1{
+  position: fixed;
+
+  width: 500px;
+  height: 40px;
+  border-radius: 30px 30px 5px 30px;
+  font-size: 20px;
+  margin-right: 20px;
+
+  bottom: 12%;
+  right: 27.5%;
+
+  padding-left: 15px;
+  padding-top: 12px;
+
+  display: none;
+}
+
+#message2{
+  position: fixed;
+
+  width: 500px;
+  height: 80px;
+  border-radius: 30px 30px 30px 5px;
+  font-size: 20px;
+  margin-left: 50px;
+
+  bottom: 12%;
+
+  padding-left: 20px;
+  padding-top: 15px;
+
+  display: none;
+}
+
