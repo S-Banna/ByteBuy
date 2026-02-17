@@ -25,7 +25,11 @@ button.theme{
 
 }
 
-.side{
+.theme:hover {
+  background-color: rgb(166, 166, 166);
+}
+
+#side{
   background-color: rgb(237, 237, 237);
   border-color: rgb(213, 213, 213);
   outline-color: rgb(140, 140, 140);
@@ -43,7 +47,7 @@ button.theme{
   color: rgb(0, 0, 0);
 }
 
-p.description{
+.description{
   color: rgb(0, 0, 0);
 }
 

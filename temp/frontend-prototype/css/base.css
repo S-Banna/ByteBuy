@@ -46,7 +46,7 @@ button.theme{
   border-radius: 20px;
 }
 
-.side{
+#side{
   overflow: scroll;
   width: 25%;
   height: 91.5%;
@@ -69,6 +69,8 @@ button.theme{
   margin: auto;
   height: 160px;
   display: flex;
+  justify-content:space-around;
+  gap: 1px;
   margin-bottom: 5%;
   margin-top: -2.5%;
 }
@@ -76,7 +78,7 @@ button.theme{
 .laptopImage{
   height: 50%;
   border-right: solid;
-  padding: 5px;
+  padding-right: 5px;
   margin-top: 8%;
 }
 
@@ -85,17 +87,39 @@ button.theme{
   margin-top: 2%;
 }
 
-p.description{
+.description{
   float: right;
-  margin-left: 10px;
+  margin-left: 8px;
   margin-top: 1%;
+  width: 70%;
+}
+
+.delete{
+  height: 27px;
+  width: 25px;
+  margin-top: 5px;
+  margin-right: 5px; 
+  border-radius: 5px;
+  background-color: rgb(212, 0, 0);
+  display: flex;
+  justify-content: center;
+  border: solid;
+}
+
+.delete:hover{
+  background-color: rgb(255, 0, 0);
+}
+
+.trash{
+  width: 20px;
+  height: 20px;
+  margin: auto;
 }
 
 p.inv{
   text-align: center;
   margin-top: -2%;
   font-size: 20px;
-
   padding: 5px;
 }
 
@@ -166,3 +190,4 @@ p.send{
   text-decoration: none;
   color: inherit;
 }
+
