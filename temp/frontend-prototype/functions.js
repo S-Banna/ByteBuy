@@ -180,11 +180,9 @@ function add() {
   count++;
 }
 
-
 function deleteItem(id) {
   let item = document.getElementById(id);
   item.remove();
-  count--;
 }
 
 function clearMain() {
@@ -209,7 +207,7 @@ async function secondMsg() {
   await sleep(2000); 
 
   let firstMsg = document.getElementById("message1");
-  firstMsg.style.bottom = "28%";
+  firstMsg.style.bottom = "30%";
 
   let secMsg = document.getElementById("message2");
   secMsg.style.display = "block";
