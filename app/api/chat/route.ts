@@ -34,10 +34,9 @@ export async function POST(request: Request) {
                     content: msg,
                 }
             ],
-            max_output_tokens: 500,
         })
         
-        return NextResponse.json(response);
+        return NextResponse.json(response.output[1]);
     } catch(err: any) {
         console.error('API /api/chat error:', err);
         return NextResponse.json({error: err?.message ?? 'internal server error'}, {status: 500})
