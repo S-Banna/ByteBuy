@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { Pool } from 'pg';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+})
+
 export async function POST(request: Request) {
     const {msg} = await request.json();
 
     const response = await openai.responses.create({
-        model: "gpt-5 mini",
+        model: "gpt-5-mini",
         input: [
             {
                 role: "developer",
@@ -20,6 +25,7 @@ export async function POST(request: Request) {
                 content: msg,
             }
         ],
+        max_output_tokens: 500,
     })
 
     return NextResponse.json(response);
