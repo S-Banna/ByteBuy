@@ -11,22 +11,35 @@ const pool = new Pool({
 })
 
 export async function POST(request: Request) {
-    const {msg} = await request.json();
+    try {
+        const {msg} = await request.json();
+        const sql = `SELECT l.id, l.model, l.cpu, l.gpu l.ram_gb, i.price_usd FROM laptops l JOIN inventory i ON i.laptop_id = l.id;`
 
-    const response = await openai.responses.create({
-        model: "gpt-5-mini",
-        input: [
-            {
-                role: "developer",
-                content: "You are an assistant for an online laptop store, and will help customers to decide which laptop they should buy based on their needs, preferences, and budget.",
-            },
-            {
-                role: "user",
-                content: msg,
-            }
-        ],
-        max_output_tokens: 500,
-    })
+        const {rows} = await pool.query(sql)
+        const itemsJson = JSON.stringify(rows);
 
-    return NextResponse.json(response);
+        const response = await openai.responses.create({
+            model: "gpt-5-mini",
+            input: [
+                {
+                    role: "developer",
+                    content: "You are an assistant for an online laptop store, and will help customers to decide which laptop they should buy based on their needs, preferences, and budget.",
+                },
+                {
+                    role: "system",
+                    content: `Inventory JSON: ${itemsJson}`,
+                },
+                {
+                    role: "user",
+                    content: msg,
+                }
+            ],
+            max_output_tokens: 500,
+        })
+        
+        return NextResponse.json(response.output);
+    } catch(err: any) {
+        return NextResponse.json({error: "ts error pmo"}, {status: 500})
+    }
+    
 }
