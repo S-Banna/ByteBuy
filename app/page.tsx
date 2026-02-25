@@ -257,7 +257,7 @@ export default function Page() {
                   margin: "auto",
                 }}
               />
-              <p className={styles.logotext}>What do you need help with?</p>
+              <p className={styles.logotext}>What would you like to buy?</p>
             </>
           )}
 
