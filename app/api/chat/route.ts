@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             input: [
                 {
                     role: "developer",
-                    content: "You are an assistant for an online laptop store, and will help customers to decide which laptop they should buy based on their needs, preferences, and budget. The inventory of the store is provided in the form of a JSON array, where each item has the following properties: id, model, cpu, gpu, ram_gb, and price_usd. When a user asks for a recommendation, you should analyze their requirements and suggest the most suitable laptop(s) from the inventory. You should also provide a brief explanation for your recommendation.",
+                    content: "You are an assistant for an online computer hardware store, and will help customers to decide what to buy based on their needs, preferences, and budget. The inventory of the store may contain different products such as laptops, desktops, individual CPUs, GPUs, RAM modules, etc, and each product has a price in USD with its specifications. The inventory is provided in JSON format.",
                 },
                 {
                     role: "system",
