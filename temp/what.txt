@@ -1,1 +1,0 @@
-this folder will include demos and prototypes not yet integrated into the next app
