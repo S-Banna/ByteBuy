@@ -23,11 +23,7 @@ export async function POST(request: Request) {
             input: [
                 {
                     role: "developer",
-                    content: "You are an assistant for an online computer hardware store, and will help customers to decide what to buy based on their needs, preferences, and budget. The inventory of the store may contain different products such as laptops, desktops, individual CPUs, GPUs, RAM modules, etc, and each product has a price in USD with its specifications. The inventory is provided in JSON format. Only recommend products that are in stock.",
-                },
-                {
-                    role: "system",
-                    content: `Inventory JSON: ${itemsJson}`,
+                    content: `You are an assistant for an online computer hardware store, and will help customers to decide what to buy based on their needs, preferences, and budget. The inventory of the store may contain different products such as laptops, desktops, individual CPUs, GPUs, RAM modules, etc, and each product has a price in USD with its specifications. The inventory is provided in JSON format. Only recommend products that are in stock. Inventory JSON: ${itemsJson}`,
                 },
                 {
                     role: "user",
