@@ -159,6 +159,11 @@
 .send_dark {
   margin-top: -10px;
   height: 50px;
+  border-radius: 50px;
+}
+.send_light:hover,
+.send_dark:hover {
+  opacity: 0.5;
 }
 .logotext {
   font-size: 30px;
