@@ -1,65 +1,318 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useRef, useEffect } from "react";
+import styles from "./page.module.css";
+
+const laptops = [
+  {
+    model: "XPS-15",
+    price: 899.99,
+    cpu: "i5 13th gen",
+    gpu: "RTX 3050",
+    ram: "16GB",
+    storage: "1000GB",
+    storageType: "NVMe",
+    screen: "15.6in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "Inspiron 15",
+    price: 749.99,
+    cpu: "Intel i5-1235U",
+    gpu: "Intel Iris Xe",
+    ram: "8GB",
+    storage: "512GB",
+    storageType: "SSD",
+    screen: "15.6in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "Pavilion Gaming",
+    price: 999.99,
+    cpu: "Ryzen 5 5600H",
+    gpu: "GTX 1650",
+    ram: "16GB",
+    storage: "512GB",
+    storageType: "SSD",
+    screen: "15.6in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "EliteBook 840",
+    price: 1299.99,
+    cpu: "Intel i7-1165G7",
+    gpu: "Intel Iris Xe",
+    ram: "16GB",
+    storage: "512GB",
+    storageType: "SSD",
+    screen: "14in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "Legion 5",
+    price: 1599.99,
+    cpu: "Ryzen 7 5800H",
+    gpu: "RTX 3060",
+    ram: "16GB",
+    storage: "1000GB",
+    storageType: "NVMe",
+    screen: "15.6in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "ThinkPad Carbon",
+    price: 1799.99,
+    cpu: "Intel i7-1260P",
+    gpu: "Intel Iris Xe",
+    ram: "16GB",
+    storage: "1000GB",
+    storageType: "NVMe",
+    screen: "14in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "ROG Strix G15",
+    price: 2199.99,
+    cpu: "Ryzen 9 5900HX",
+    gpu: "RTX 3070",
+    ram: "32GB",
+    storage: "1000GB",
+    storageType: "NVMe",
+    screen: "15.6in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "VivoBook 14",
+    price: 699.99,
+    cpu: "Intel i5-1135G7",
+    gpu: "Intel Iris Xe",
+    ram: "8GB",
+    storage: "512GB",
+    storageType: "SSD",
+    screen: "14in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "Nitro 5",
+    price: 1499.99,
+    cpu: "Intel i7-11800H",
+    gpu: "RTX 3060",
+    ram: "16GB",
+    storage: "1000GB",
+    storageType: "NVMe",
+    screen: "15.6in",
+    image: "images/laptop.png",
+  },
+  {
+    model: "MacBook Air M1",
+    price: 999.99,
+    cpu: "Apple M1",
+    gpu: "Integrated",
+    ram: "8GB",
+    storage: "256GB",
+    storageType: "SSD",
+    screen: "13.3in",
+    image: "images/laptop.png",
+  },
+];
+
+interface InventoryItem {
+  id: string;
+  laptopIndex: number;
+}
+
+export default function Page() {
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [count, setCount] = useState(0);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [showMain, setShowMain] = useState(false);
+  const [showMessage1, setShowMessage1] = useState(false);
+  const [textboxValue, setTextboxValue] = useState("");
+  const [userMessage, setUserMessage] = useState("");
+  const countRef = useRef(count);
+  countRef.current = count;
+
+  function toggleTheme() {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }
+
+  function add() {
+    if (countRef.current >= laptops.length) return;
+    const currentCount = countRef.current;
+    setInventory((prev) => [
+      ...prev,
+      { id: "item-" + currentCount, laptopIndex: currentCount },
+    ]);
+    setCount((prev) => prev + 1);
+  }
+
+  function deleteItem(id: string) {
+    setInventory((prev) => prev.filter((item) => item.id !== id));
+  }
+
+  function sleep(ms: number) {
+    return new Promise<void>((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function clearMain() {
+
+    if (textboxValue.trim() === "") return;
+
+    await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: textboxValue,
+      }),
+    });
+
+    setUserMessage(textboxValue);
+    setShowMain(true);
+    setShowMessage1(true);
+    setTextboxValue("");
+    await sleep(2000);
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <style>{`
+        body { margin: 0; font-family: sans-serif; background-color: ${theme === "dark" ? "rgb(33,33,33)" : "rgb(255,255,255)"}; }
+        ::-webkit-scrollbar { display: none; }
+      `}</style>
+      <div className={`${styles.page} ${styles[theme]}`}>
+        <div className={styles.side}>
+          <p className={styles.inv}>
+            <span className={styles.invSpan}>Inventory</span>
           </p>
+          {inventory.map((item) => {
+            const laptop = laptops[item.laptopIndex];
+            return (
+              <div key={item.id} id={item.id} className={styles.inventoryItem}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className={styles.laptopImage}
+                  src="images/laptop.png"
+                  alt="laptop"
+                />
+                <p className={styles.description}>
+                  Model: {laptop.model}
+                  <br />
+                  Price: ${laptop.price}
+                  <br />
+                  CPU: {laptop.cpu}
+                  <br />
+                  GPU: {laptop.gpu}
+                  <br />
+                  RAM: {laptop.ram}
+                  <br />
+                  Storage: {laptop.storage}
+                  <br />
+                  Storage Type: {laptop.storageType}
+                  <br />
+                  Screen Size: {laptop.screen}
+                </p>
+                <button
+                  className={styles.delete}
+                  onClick={() => deleteItem(item.id)}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className={styles.trash}
+                    src="images/trash.svg"
+                    alt="delete"
+                  />
+                </button>
+              </div>
+            );
+          })}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <div className={styles.main}>
+          <div className={styles.darkmode}>
+            <p className={styles.ByteBuy}>
+              <a className={styles.link} href="">
+                ByteBuy
+              </a>
+            </p>
+            <button className={styles.themeBtn} onClick={toggleTheme}>
+              ⏾/☀︎
+            </button>
+          </div>
+          <br />
+
+          {!showMain && (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                id="light"
+                src="images/icon-light.png"
+                alt="icon"
+                style={{
+                  display: theme === "light" ? "block" : "none",
+                  width: 100,
+                  margin: "auto",
+                }}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                id="dark"
+                src="images/icon-dark.png"
+                alt="icon"
+                style={{
+                  display: theme === "dark" ? "block" : "none",
+                  width: 100,
+                  margin: "auto",
+                }}
+              />
+              <p className={styles.logotext}>What would you like to buy?</p>
+            </>
+          )}
+
+          {showMessage1 && (
+            <p
+              className={styles.message1}
+              style={{ bottom: "12%" }}
+            >
+              {userMessage}
+            </p>
+          )}
+        </div>
+
+        <div className={styles.text}>
+          <input
+            placeholder="Ask anything..."
+            id="textbox"
+            className={styles.textbox}
+            value={textboxValue}
+            onChange={(e) => setTextboxValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                clearMain();
+              }
+            }}
+          />
+          <div className={styles.send}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              onClick={clearMain}
+              className={styles.send_dark}
+              src="images/send_dark.svg"
+              alt="send"
+              style={{ display: theme === "dark" ? "block" : "none" }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              onClick={clearMain}
+              className={styles.send_light}
+              src="images/send_light.svg"
+              alt="send"
+              style={{ display: theme === "light" ? "block" : "none" }}
+            />
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 }

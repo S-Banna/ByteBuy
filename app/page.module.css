@@ -1,0 +1,328 @@
+/* base.css */
+.body {
+  font-family: sans-serif;
+  margin: 0;
+}
+.page {
+  height: 100vh;
+  width: 99.5%;
+}
+.main {
+  font-size: 100px;
+  width: 80%;
+  height: 88%;
+}
+.darkmode {
+  display: flex;
+}
+.ByteBuy {
+  font-size: 30%;
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 112px;
+  border: solid;
+  border-width: 10px;
+  border-radius: 15px;
+  outline: solid;
+  outline-width: 1px;
+}
+.themeBtn {
+  float: right;
+  margin-top: 22px;
+  margin-left: 10px;
+  height: 30px;
+  width: 50px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 20px;
+}
+.add {
+  width: 190px;
+  height: 60px;
+  margin-left: 25px;
+  margin-top: 5px;
+  border-radius: 20px;
+  background-color: rgb(0, 197, 0);
+  border: solid;
+  border-width: 2px;
+  border-color: rgb(0, 255, 0);
+  font-weight: bold;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.add:hover {
+  background-color: rgb(0, 255, 0);
+}
+.side {
+  overflow: scroll;
+  width: 25%;
+  height: 91.5%;
+  float: right;
+  border: solid;
+  border-width: 10px;
+  border-radius: 25px;
+  margin-top: 28px;
+  margin-right: 5px;
+  outline-width: 1px;
+  outline-style: solid;
+}
+.inventoryItem {
+  border-radius: 10px;
+  width: 95%;
+  margin: auto;
+  height: 160px;
+  display: flex;
+  justify-content: space-around;
+  gap: 1px;
+  margin-bottom: 5%;
+  margin-top: -2.5%;
+}
+.laptopImage {
+  height: 50%;
+  border-right: solid;
+  padding-right: 5px;
+  margin-top: 35px;
+  margin-left: 5px;
+}
+.num {
+  margin-left: 5px;
+  margin-top: 2%;
+}
+.description {
+  float: right;
+  margin-left: 8px;
+  margin-top: 1%;
+  width: 70%;
+}
+.delete {
+  height: 27px;
+  width: 25px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+  background-color: rgb(212, 0, 0);
+  display: flex;
+  justify-content: center;
+  border: solid;
+  border-width: 2px;
+  border-color: rgb(255, 38, 38);
+}
+.delete:hover {
+  background-color: rgb(255, 0, 0);
+}
+.trash {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}
+.inv {
+  text-align: center;
+  margin-top: -2%;
+  font-size: 20px;
+  padding: 5px;
+}
+.invSpan {
+  /* matches span.inv */
+}
+/* ::-webkit-scrollbar { display: none; } — applied via global */
+.text {
+  width: 72%;
+  height: 18px;
+  display: flex;
+}
+.textbox {
+  margin-left: 20px;
+  font-size: 20px;
+  border: solid;
+  outline: none;
+  width: 90%;
+  height: 25px;
+  border-width: 20px;
+  border-radius: 30px 0px 0px 30px;
+  outline: solid;
+  outline-width: 1px;
+}
+.send {
+  height: 100%;
+  float: right;
+  width: 30px;
+  padding-bottom: 9px;
+  border: solid;
+  border-width: 20px;
+  border-radius: 0px 30px 30px 0px;
+  outline: solid;
+  outline-width: 1px;
+  display: flex;
+  justify-content: center;
+}
+.send_light,
+.send_dark {
+  margin-top: -10px;
+  height: 50px;
+  border-radius: 50px;
+}
+.send_light:hover,
+.send_dark:hover {
+  opacity: 0.5;
+}
+.logotext {
+  font-size: 30px;
+  text-align: center;
+}
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+.message1 {
+  position: fixed;
+  width: 500px;
+  height: 40px;
+  border-radius: 30px 30px 5px 30px;
+  font-size: 20px;
+  margin-right: 20px;
+  bottom: 12%;
+  right: 27.5%;
+  padding-left: 15px;
+  padding-top: 12px;
+}
+.message2 {
+  position: fixed;
+  width: 540px;
+  height: 80px;
+  border-radius: 30px 30px 30px 5px;
+  font-size: 20px;
+  margin-left: 50px;
+  bottom: 12%;
+  padding-left: 20px;
+  padding-top: 12px;
+}
+
+/* dark theme */
+.dark .body,
+.dark .page,
+.dark .main {
+  background-color: rgb(33, 33, 33);
+}
+.dark .ByteBuy {
+  color: rgb(207, 207, 207);
+  border-color: rgb(48, 48, 48);
+  background-color: rgb(48, 48, 48);
+  text-shadow: 1px 1px 5px rgb(145, 145, 145);
+  outline-color: rgb(73, 73, 73);
+}
+.dark .themeBtn {
+  background-color: rgb(48, 48, 48);
+  color: rgb(255, 255, 255);
+  border-color: rgb(73, 73, 73);
+  text-shadow: 1px 1px 5px;
+}
+.dark .themeBtn:hover {
+  background-color: rgb(76, 76, 76);
+}
+.dark .side {
+  background-color: rgb(26, 26, 26);
+  border-color: rgb(48, 48, 48);
+  outline-color: rgb(73, 73, 73);
+}
+.dark .inventoryItem {
+  background-color: rgb(48, 48, 48);
+}
+.dark .laptopImage {
+  border-color: rgb(196, 196, 196);
+}
+.dark .num {
+  color: rgb(196, 196, 196);
+}
+.dark .description {
+  color: rgb(196, 196, 196);
+}
+.dark .inv {
+  background-color: rgb(48, 48, 48);
+}
+.dark .invSpan {
+  color: rgb(196, 196, 196);
+}
+.dark .textbox {
+  background-color: rgb(48, 48, 48);
+  color: rgb(196, 196, 196);
+  border-color: rgb(48, 48, 48);
+  outline-color: rgb(73, 73, 73);
+}
+.dark .send {
+  color: rgb(182, 182, 182);
+  background-color: rgb(48, 48, 48);
+  border-color: rgb(48, 48, 48);
+  outline-color: rgb(73, 73, 73);
+}
+.dark .logotext {
+  color: rgb(196, 196, 196);
+}
+.dark .message1,
+.dark .message2 {
+  background-color: rgb(48, 48, 48);
+  color: rgb(212, 212, 212);
+}
+
+/* light theme */
+.light .body,
+.light .page,
+.light .main {
+  background-color: rgb(255, 255, 255);
+}
+.light .ByteBuy {
+  color: rgb(73, 73, 73);
+  border-color: rgb(213, 213, 213);
+  background-color: rgb(213, 213, 213);
+  outline-color: rgb(140, 140, 140);
+}
+.light .themeBtn {
+  background-color: rgb(213, 213, 213);
+  color: rgb(73, 73, 73);
+  border-color: rgb(140, 140, 140);
+}
+.light .themeBtn:hover {
+  background-color: rgb(166, 166, 166);
+}
+.light .side {
+  background-color: rgb(237, 237, 237);
+  border-color: rgb(213, 213, 213);
+  outline-color: rgb(140, 140, 140);
+}
+.light .inventoryItem {
+  background-color: rgb(213, 213, 213);
+}
+.light .laptopImage {
+  border-color: rgb(137, 137, 137);
+}
+.light .num {
+  color: rgb(0, 0, 0);
+}
+.light .description {
+  color: rgb(0, 0, 0);
+}
+.light .inv {
+  background-color: rgb(213, 213, 213);
+}
+.light .invSpan {
+  color: rgb(0, 0, 0);
+}
+.light .textbox {
+  background-color: rgb(213, 213, 213);
+  color: rgb(73, 73, 73);
+  border-color: rgb(213, 213, 213);
+  outline-color: rgb(124, 124, 124);
+}
+.light .send {
+  color: rgb(62, 62, 62);
+  background-color: rgb(213, 213, 213);
+  border-color: rgb(213, 213, 213);
+  outline-color: rgb(124, 124, 124);
+}
+.light .logotext {
+  color: rgb(73, 73, 73);
+}
+.light .message1,
+.light .message2 {
+  background-color: rgb(213, 213, 213);
+  color: rgb(49, 49, 49);
+}
