@@ -134,19 +134,18 @@ export default function Page() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [textboxValue, setTextboxValue] = useState("");
   const countRef = useRef(count);
-  countRef.current = count;
-
-  // HIGHLIGHT: Add this ref for the scroll target
+  
+  // NEW: Add this ref for auto-scrolling
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  
   countRef.current = count;
 
-  // HIGHLIGHT: Add this function to scroll to bottom
+  // NEW: Function to scroll to bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // HIGHLIGHT: Add this effect to auto-scroll when messages change
+  // NEW: Auto-scroll when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -178,24 +177,40 @@ export default function Page() {
 
     const userText = textboxValue;
 
+    // Add user message immediately
     setMessages((prev) => [...prev, { role: "user", text: userText }]);
     setTextboxValue("");
     setShowMain(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: userText }),
-    });
+    // NEW: Array of possible bot responses
+    const botResponses = [
+      "I can help you with that!",
+      "Here's what I found in our inventory...",
+      "Would you like to see more options?",
+      "That's a great choice!",
+      "Let me check our laptop selection...",
+      `Response ${messages.length + 1}: You asked about "${userText}"`,
+      "I have several laptops that match your criteria.",
+      "Would you like me to filter by price range?",
+      "Here are the top 3 recommendations for you.",
+      "That's an excellent question!",
+      "Let me find the best deals for you.",
+      "I can help you compare different models.",
+      "What's your budget range?",
+      "Are you looking for gaming or productivity?",
+      "I'd recommend checking out our latest arrivals."
+    ];
 
-    const data = await res.json();
-
-    setMessages((prev) => [
-      ...prev,
-      { role: "bot", text: data.reply },
-    ]);
+    // NEW: Select random response
+    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+    
+    // NEW: Add bot response after a short delay
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { role: "bot", text: randomResponse },
+      ]);
+    }, 500);
   }
 
   return (
@@ -306,7 +321,7 @@ export default function Page() {
                 {msg.text}
               </div>
             ))}
-            {/* HIGHLIGHT: Add this empty div as a scroll target */}
+            {/* NEW: Empty div for auto-scrolling */}
             <div ref={messagesEndRef} />
           </div>
         </div>
