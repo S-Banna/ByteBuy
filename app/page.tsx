@@ -127,9 +127,8 @@ export default function Page() {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [showMain, setShowMain] = useState(false);
   const [showMessage1, setShowMessage1] = useState(false);
-  const [showMessage2, setShowMessage2] = useState(false);
-  const [message1Raised, setMessage1Raised] = useState(false);
   const [textboxValue, setTextboxValue] = useState("");
+  const [userMessage, setUserMessage] = useState("");
   const countRef = useRef(count);
   countRef.current = count;
 
@@ -156,14 +155,24 @@ export default function Page() {
   }
 
   async function clearMain() {
+
+    if (textboxValue.trim() === "") return;
+
+    await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: textboxValue,
+      }),
+    });
+
+    setUserMessage(textboxValue);
     setShowMain(true);
     setShowMessage1(true);
-    setShowMessage2(false);
-    setMessage1Raised(false);
     setTextboxValue("");
     await sleep(2000);
-    setMessage1Raised(true);
-    setShowMessage2(true);
   }
 
   return (
@@ -223,7 +232,7 @@ export default function Page() {
         <div className={styles.main}>
           <div className={styles.darkmode}>
             <p className={styles.ByteBuy}>
-              <a className={styles.link} href="#">
+              <a className={styles.link} href="">
                 ByteBuy
               </a>
             </p>
@@ -264,18 +273,9 @@ export default function Page() {
           {showMessage1 && (
             <p
               className={styles.message1}
-              style={{ bottom: message1Raised ? "30%" : "12%" }}
+              style={{ bottom: "12%" }}
             >
-              Hello i need a gaming laptop.
-            </p>
-          )}
-
-          {showMessage2 && (
-            <p className={styles.message2}>
-              Sure! Here are some suggestions:
-              <button className={styles.add} onClick={add}>
-                + add suggestion
-              </button>
+              {userMessage}
             </p>
           )}
         </div>
@@ -287,6 +287,11 @@ export default function Page() {
             className={styles.textbox}
             value={textboxValue}
             onChange={(e) => setTextboxValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                clearMain();
+              }
+            }}
           />
           <div className={styles.send}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
