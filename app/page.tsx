@@ -3,6 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./page.module.css";
 
+interface ChatMessage {
+  role: "user" | "bot";
+  text: string;
+}
+
 const laptops = [
   {
     model: "XPS-15",
@@ -126,11 +131,24 @@ export default function Page() {
   const [count, setCount] = useState(0);
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [showMain, setShowMain] = useState(false);
-  const [showMessage1, setShowMessage1] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [textboxValue, setTextboxValue] = useState("");
-  const [userMessage, setUserMessage] = useState("");
   const countRef = useRef(count);
+  
+  // NEW: Add this ref for auto-scrolling
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  
   countRef.current = count;
+
+  // NEW: Function to scroll to bottom
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // NEW: Auto-scroll when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   function toggleTheme() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
@@ -155,24 +173,44 @@ export default function Page() {
   }
 
   async function clearMain() {
-
     if (textboxValue.trim() === "") return;
 
-    await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: textboxValue,
-      }),
-    });
+    const userText = textboxValue;
 
-    setUserMessage(textboxValue);
-    setShowMain(true);
-    setShowMessage1(true);
+    // Add user message immediately
+    setMessages((prev) => [...prev, { role: "user", text: userText }]);
     setTextboxValue("");
-    await sleep(2000);
+    setShowMain(true);
+
+    // NEW: Array of possible bot responses
+    const botResponses = [
+      "I can help you with that!",
+      "Here's what I found in our inventory...",
+      "Would you like to see more options?",
+      "That's a great choice!",
+      "Let me check our laptop selection...",
+      `Response ${messages.length + 1}: You asked about "${userText}"`,
+      "I have several laptops that match your criteria.",
+      "Would you like me to filter by price range?",
+      "Here are the top 3 recommendations for you.",
+      "That's an excellent question!",
+      "Let me find the best deals for you.",
+      "I can help you compare different models.",
+      "What's your budget range?",
+      "Are you looking for gaming or productivity?",
+      "I'd recommend checking out our latest arrivals."
+    ];
+
+    // NEW: Select random response
+    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+    
+    // NEW: Add bot response after a short delay
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { role: "bot", text: randomResponse },
+      ]);
+    }, 500);
   }
 
   return (
@@ -270,14 +308,22 @@ export default function Page() {
             </>
           )}
 
-          {showMessage1 && (
-            <p
-              className={styles.message1}
-              style={{ bottom: "12%" }}
-            >
-              {userMessage}
-            </p>
-          )}
+          <div className={styles.chatArea}>
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={
+                  msg.role === "user"
+                    ? styles.messageUser
+                    : styles.messageBot
+                }
+              >
+                {msg.text}
+              </div>
+            ))}
+            {/* NEW: Empty div for auto-scrolling */}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
         <div className={styles.text}>
