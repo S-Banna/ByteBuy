@@ -3,6 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./page.module.css";
 
+interface ChatMessage {
+  role: "user" | "bot";
+  text: string;
+}
+
 const laptops = [
   {
     model: "XPS-15",
@@ -126,11 +131,25 @@ export default function Page() {
   const [count, setCount] = useState(0);
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [showMain, setShowMain] = useState(false);
-  const [showMessage1, setShowMessage1] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [textboxValue, setTextboxValue] = useState("");
-  const [userMessage, setUserMessage] = useState("");
   const countRef = useRef(count);
   countRef.current = count;
+
+  // HIGHLIGHT: Add this ref for the scroll target
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  countRef.current = count;
+
+  // HIGHLIGHT: Add this function to scroll to bottom
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // HIGHLIGHT: Add this effect to auto-scroll when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   function toggleTheme() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
@@ -155,24 +174,28 @@ export default function Page() {
   }
 
   async function clearMain() {
-
     if (textboxValue.trim() === "") return;
 
-    await fetch("/api/chat", {
+    const userText = textboxValue;
+
+    setMessages((prev) => [...prev, { role: "user", text: userText }]);
+    setTextboxValue("");
+    setShowMain(true);
+
+    const res = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        message: textboxValue,
-      }),
+      body: JSON.stringify({ message: userText }),
     });
 
-    setUserMessage(textboxValue);
-    setShowMain(true);
-    setShowMessage1(true);
-    setTextboxValue("");
-    await sleep(2000);
+    const data = await res.json();
+
+    setMessages((prev) => [
+      ...prev,
+      { role: "bot", text: data.reply },
+    ]);
   }
 
   return (
@@ -270,14 +293,22 @@ export default function Page() {
             </>
           )}
 
-          {showMessage1 && (
-            <p
-              className={styles.message1}
-              style={{ bottom: "12%" }}
-            >
-              {userMessage}
-            </p>
-          )}
+          <div className={styles.chatArea}>
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={
+                  msg.role === "user"
+                    ? styles.messageUser
+                    : styles.messageBot
+                }
+              >
+                {msg.text}
+              </div>
+            ))}
+            {/* HIGHLIGHT: Add this empty div as a scroll target */}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
         <div className={styles.text}>

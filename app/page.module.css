@@ -173,28 +173,37 @@
   text-decoration: none;
   color: inherit;
 }
-.message1 {
-  position: fixed;
-  width: 500px;
-  height: 40px;
+
+.messageUser {
+  align-self: flex-end;
+  max-width: 500px;
+  padding: 12px 16px;
   border-radius: 30px 30px 5px 30px;
   font-size: 20px;
-  margin-right: 20px;
-  bottom: 12%;
-  right: 27.5%;
-  padding-left: 15px;
-  padding-top: 12px;
 }
-.message2 {
-  position: fixed;
-  width: 540px;
-  height: 80px;
+
+.messageBot {
+  align-self: flex-start;
+  max-width: 540px;
+  padding: 12px 16px;
   border-radius: 30px 30px 30px 5px;
   font-size: 20px;
-  margin-left: 50px;
-  bottom: 12%;
-  padding-left: 20px;
-  padding-top: 12px;
+}
+
+.chatArea {
+  position: fixed;
+  bottom: 15%;
+  right: 27%;
+  width: 69vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000; /* Add this */
+  max-height: 75vh; /* Add this to limit height */
+  overflow-y: auto; /* Add this for scrolling */
+
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 /* dark theme */
@@ -257,8 +266,8 @@
 .dark .logotext {
   color: rgb(196, 196, 196);
 }
-.dark .message1,
-.dark .message2 {
+.dark .messageUser,
+.dark .messageBot {
   background-color: rgb(48, 48, 48);
   color: rgb(212, 212, 212);
 }
@@ -321,8 +330,8 @@
 .light .logotext {
   color: rgb(73, 73, 73);
 }
-.light .message1,
-.light .message2 {
+.light .messageUser,
+.light .messageBot {
   background-color: rgb(213, 213, 213);
   color: rgb(49, 49, 49);
 }
