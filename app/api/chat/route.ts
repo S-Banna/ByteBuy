@@ -12,31 +12,30 @@ const pool = new Pool({
 
 export async function POST(request: Request) {
     try {
-        const {msg} = await request.json();
+        const {message, conversationHistory} = await request.json();
         const sql = `SELECT l.id, l.model, l.cpu, l.gpu, l.ram_gb, i.price_usd FROM laptops l JOIN inventory i ON i.laptop_id = l.id;`
 
         const {rows} = await pool.query(sql);
         const itemsJson = JSON.stringify(rows);
+        
+        const messages = [
+                {
+                    role: "developer",
+                    content: `You are an assistant for an online computer hardware store, and will help customers to decide what to buy based on their needs, preferences, and budget. The inventory of the store may contain different products such as laptops, desktops, individual CPUs, GPUs, RAM modules, etc, and each product has a price in USD with its specifications. The inventory is provided in JSON format. Only recommend products that are in stock. Inventory JSON: ${itemsJson}`,
+                },
+                ...(conversationHistory || []),
+                {
+                    role: "user",
+                    content: message,
+                },
+            ]
 
         const response = await openai.responses.create({
             model: "gpt-5-mini",
-            input: [
-                {
-                    role: "developer",
-                    content: "You are an assistant for an online laptop store, and will help customers to decide which laptop they should buy based on their needs, preferences, and budget. The inventory of the store is provided in the form of a JSON array, where each item has the following properties: id, model, cpu, gpu, ram_gb, and price_usd. When a user asks for a recommendation, you should analyze their requirements and suggest the most suitable laptop(s) from the inventory. You should also provide a brief explanation for your recommendation.",
-                },
-                {
-                    role: "system",
-                    content: `Inventory JSON: ${itemsJson}`,
-                },
-                {
-                    role: "user",
-                    content: msg,
-                }
-            ],
+            input: messages
         })
         
-        return NextResponse.json(response.output[1]);
+        return NextResponse.json(response);
     } catch(err: any) {
         console.error('API /api/chat error:', err);
         return NextResponse.json({error: err?.message ?? 'internal server error'}, {status: 500})
