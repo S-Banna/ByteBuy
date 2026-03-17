@@ -8,6 +8,9 @@ const openai = new OpenAI({
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+        require: true,
+    }
 })
 
 export async function POST(request: Request) {
