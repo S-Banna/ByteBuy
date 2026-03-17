@@ -51,8 +51,8 @@ export async function POST(request: Request) {
                 ],
             })
         }
-        
-        return NextResponse.json(response);
+        const output = {response: response.output[1].content[0].text, responseId: response.id};
+        return NextResponse.json(output);
     } catch(err: any) {
         console.error('API /api/chat error:', err);
         return NextResponse.json({error: err?.message ?? 'internal server error'}, {status: 500})
