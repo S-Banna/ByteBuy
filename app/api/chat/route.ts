@@ -16,7 +16,25 @@ const pool = new Pool({
 export async function POST(request: Request) {
     try {
         const {message, previousMessageId} = await request.json();
-        const sql = `SELECT l.id, l.model, l.cpu, l.gpu, l.ram_gb, i.price_usd FROM laptops l JOIN inventory i ON i.laptop_id = l.id;`
+        const sql = `SELECT
+                l.id,
+                b.name AS brand,
+                l.model,
+                s.name AS store,
+                l.cpu,
+                l.gpu,
+                l.ram_gb,
+                l.storage_gb,
+                l.storage_type,
+                l.screen_size,
+                l.os,
+                i.price_usd,
+                i.quantity
+            FROM laptops l
+            JOIN brands b ON l.brand_id = b.brand_id
+            JOIN stores s ON l.store_id = s.id
+            JOIN inventory i ON i.laptop_id = l.id AND i.store_id = l.store_id
+            ORDER BY brand, model;`;
 
         const {rows} = await pool.query(sql);
         const itemsJson = JSON.stringify(rows);
@@ -51,8 +69,13 @@ export async function POST(request: Request) {
                 ],
             })
         }
-        const output = {response: response.output[1].content[0].text, responseId: response.id};
-        return NextResponse.json(output);
+        
+        const reply = response.output_text ?? "";
+
+        return NextResponse.json({
+            reply,
+            responseId: response.id,
+        });
     } catch(err: any) {
         console.error('API /api/chat error:', err);
         return NextResponse.json({error: err?.message ?? 'internal server error'}, {status: 500})
