@@ -8,11 +8,6 @@ interface ChatMessage {
     text: string;
 }
 
-interface InventoryItem {
-    id: string;
-    laptopIndex: number;
-}
-
 export default function Page() {
     const [theme, setTheme] = useState<"dark" | "light">("dark");
     const [showMain, setShowMain] = useState(false);
