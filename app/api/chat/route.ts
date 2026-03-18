@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { Pool } from 'pg';
+import { Pool } from "pg";
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const pool = new Pool({
@@ -81,3 +81,4 @@ export async function POST(request: Request) {
         return NextResponse.json({error: err?.message ?? 'internal server error'}, {status: 500})
     }
 }
+
