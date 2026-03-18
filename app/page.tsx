@@ -13,7 +13,6 @@ export default function Page() {
     const [showMain, setShowMain] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [textboxValue, setTextboxValue] = useState("");
-    const [previousResponseId, setPreviousResponseId] = useState<string | null>(null);
 
     // Add this ref for auto-scrolling
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -52,19 +51,34 @@ export default function Page() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    message: userText,
-                    previousMessageId: previousResponseId,
+                    messages: nextMessages
                 }),
             });
 
-            const data = await res.json();
+            const reader = res.body?.getReader();
+            const decoder = new TextDecoder();
 
-            setMessages((prev) => [
-                ...prev,
-                { role: "bot", text: data.reply }
-            ]);
+            let botMessage = "";
 
-            setPreviousResponseId(data.responseId);
+            // Add empty bot message first
+            setMessages((prev) => [...prev, { role: "bot", text: "" }]);
+
+            while (true) {
+                const { done, value } = await reader!.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value);
+                botMessage += chunk;
+
+                setMessages((prev) => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = {
+                        role: "bot",
+                        text: botMessage,
+                    };
+                    return updated;
+                });
+            }
         } catch (error) {
             console.error("Error sending message:", error);
         }

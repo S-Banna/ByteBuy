@@ -52,7 +52,7 @@ async function getInventory() {
 
 export async function POST(request: Request) {
     try {
-        const { message, previousMessageId } = await request.json();
+        const { messages } = await request.json();
 
         const items = await getInventory();
         const itemsJson = JSON.stringify(items);
@@ -64,24 +64,33 @@ export async function POST(request: Request) {
                     role: "developer",
                     content: `You are an assistant for an online computer hardware store. Help customers choose products based on their needs, preferences, and budget. Only recommend products that are in stock. Inventory JSON: ${itemsJson}`,
                 },
-                {
-                    role: "user",
-                    content: message,
-                },
+                ...messages.map((m: any) => ({
+                    role: m.role === "user" ? "user" : "assistant",
+                    content: m.text,
+                })),
             ],
         };
 
-        if (previousMessageId) {
-            gptRequest.previous_response_id = previousMessageId;
-        }
-        const response = await openai.responses.create(gptRequest);
+        const stream = await openai.responses.stream(gptRequest);
+        const encoder = new TextEncoder();
 
-        const reply = response.output_text ?? "";
-
-        return NextResponse.json({
-            reply,
-            responseId: response.id,
-        });
+        return new Response(
+            new ReadableStream({
+                async start(controller) {
+                    for await (const event of stream) {
+                        if (event.type === "response.output_text.delta") {
+                            controller.enqueue(encoder.encode(event.delta));
+                        }
+                    }
+                    controller.close();
+                },
+            }),
+            {
+                headers: {
+                    "Content-Type": "text/plain; charset=utf-8",
+                },
+            }
+        );
     } catch (err: any) {
         console.error("API /api/chat error:", err);
 
