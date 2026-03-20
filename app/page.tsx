@@ -14,6 +14,7 @@ export default function Page() {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [textboxValue, setTextboxValue] = useState("");
     const [previousResponseId, setPreviousResponseId] = useState<string | null>(null);
+    const [imgSrc, setImgSrc] = useState("images/send_dark.svg");
 
     // Add this ref for auto-scrolling
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -34,6 +35,8 @@ export default function Page() {
 
     async function clearMain() {
         if (textboxValue.trim() === "") return;
+
+        setImgSrc("images/loading.gif");
 
         const userText = textboxValue;
 
@@ -65,6 +68,9 @@ export default function Page() {
             ]);
 
             setPreviousResponseId(data.responseId);
+
+            setImgSrc("images/send_dark.svg");
+            
         } catch (error) {
             console.error("Error sending message:", error);
         }
@@ -167,7 +173,7 @@ export default function Page() {
                         <img
                             onClick={clearMain}
                             className={styles.send_dark}
-                            src="images/send_dark.svg"
+                            src={imgSrc}
                             alt="send"
                             style={{
                                 display: theme === "dark" ? "block" : "none",
