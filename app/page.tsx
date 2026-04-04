@@ -1,3 +1,4 @@
+// app/buyer/page.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -9,6 +10,12 @@ interface ChatMessage {
 }
 
 export default function Page() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showLoginPopup, setShowLoginPopup] = useState(true); // Start with popup open
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loginError, setLoginError] = useState("");
+
     const [iconState, setIconState] = useState("send"); // "send" or "loading"
     const [theme, setTheme] = useState<"dark" | "light">("dark");
     const [showMain, setShowMain] = useState(false);
@@ -16,13 +23,23 @@ export default function Page() {
     const [textboxValue, setTextboxValue] = useState("");
     const [previousResponseId, setPreviousResponseId] = useState<string | null>(null);
 
-        const imgSrc =
+    const imgSrc =
         iconState === "loading"
             ? `images/loading_${theme}.gif`
             : `images/send_${theme}.svg`;
 
     // Add this ref for auto-scrolling
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const handleLogin = () => {
+        if (email === "admin" && password === "admin") {
+            setIsLoggedIn(true);
+            setShowLoginPopup(false);
+            setLoginError("");
+        } else {
+            setLoginError("Invalid credentials. Use admin/admin");
+        }
+    };
 
     // Function to scroll to bottom
     const scrollToBottom = () => {
@@ -39,7 +56,10 @@ export default function Page() {
     }
 
     async function clearMain() {
+
         if (textboxValue.trim() === "") return;
+
+        if (iconState === "loading") return;
 
         setIconState("loading");
 
@@ -75,11 +95,115 @@ export default function Page() {
             setPreviousResponseId(data.responseId);
 
             setIconState("send");
-            
+
         } catch (error) {
             console.error("Error sending message:", error);
             setIconState("send");
         }
+    }
+
+    if (!isLoggedIn) {
+        return (
+            <>
+                <style>{`
+                    body { margin: 0; font-family: sans-serif; overflow: hidden; }
+                `}</style>
+                <div style={{
+                    height: "100vh",
+                    overflow: "hidden"
+                }}>
+                    {/* Your blurred background content - can be empty or show chat blurred */}
+                    <div style={{ height: "100vh", backgroundColor: theme === "dark" ? "#212121" : "#fff" }}></div>
+                </div>
+
+                {/* Login Popup */}
+                <div style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(44, 44, 44, 0.5)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    zIndex: 1000
+                }}>
+                    <div style={{
+                        backgroundColor: theme === "dark" ? "rgb(33, 33, 33)" : "#fff",
+                        padding: "2rem",
+                        borderRadius: "20px",
+                        border: "2px solid #313131",
+                        height: "400px",
+                        width: "300px",
+                        boxShadow: "0 4px 20px rgba(91, 80, 80, 0.3)",
+                    }}>
+                        <h2 style={{ marginTop: "80px", marginBottom: "1rem", textAlign: "center", color: theme === "dark" ? "#fff" : "#000" }}>Sign in to ByteBuy</h2>
+
+                        <input
+                            type="text"
+                            placeholder="Email (admin)"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                            style={{
+                                color: "white",
+                                width: "100%",
+                                padding: "12px",
+                                marginBottom: "1rem",
+                                borderRadius: "20px",
+                                border: "1px solid #434343",
+                                boxSizing: "border-box",
+                                backgroundColor: "rgb(47, 47, 47)",
+                                outline: "none"
+                            }}
+                        />
+
+                        <input
+                            type="password"
+                            placeholder="Password (admin)"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                            style={{
+                                color: "white",
+                                width: "100%",
+                                padding: "12px",
+                                marginBottom: "1rem",
+                                borderRadius: "20px",
+                                border: "1px solid #434343",
+                                boxSizing: "border-box",
+                                backgroundColor: "rgb(47, 47, 47)",
+                                outline: "none"
+                            }}
+                        />
+
+                        {loginError && (
+                            <div style={{ color: "red", marginBottom: "1rem", fontSize: "0.875rem" }}>
+                                {loginError}
+                            </div>
+                        )}
+
+                        <button
+                            onClick={handleLogin}
+                            style={{
+                                width: "30%",
+                                padding: "0.5rem",
+                                backgroundColor: "#ffffff",
+                                color: "black",
+                                border: "2px solid rgb(211, 211, 211)",
+                                borderRadius: "15px",
+                                cursor: "pointer",
+                                marginLeft: "100px"
+                                
+                            }}
+                        >
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+            </>
+        );
     }
 
     return (
