@@ -25,5 +25,16 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    
+    try {
+        const {chatId, content, role} = await request.json();
+
+        const sql = `INSERT INTO messages (chat_id, content, role, created_at) VALUES (${chatId}, '${content}', '${role}', NOW())`;
+
+        await pool.query(sql);
+
+        return NextResponse.json({ message: "Message added successfully" });
+    } catch (error) {
+        console.error("Error adding message:", error);
+        return NextResponse.json({ error: "Failed to add message" }, { status: 500 });
+    }
 }
