@@ -10,9 +10,9 @@ const pool = new Pool({
 
 export async function GET(request: Request) {
     try {
-        const { chatId } = await request.json();
+        const { userID } = await request.json();
 
-        const sql = `SELECT chat_id, content, role FROM messages WHERE chat_id = ${chatId} ORDER BY created_at ASC;`;
+        const sql = `SELECT id, content, role FROM chats WHERE chat_id = ${userID} ORDER BY created_at ASC;`;
     
         const { rows } = await pool.query(sql);
 
@@ -26,9 +26,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
     try {
-        const {chatId, content, role} = await request.json();
+        const {chatId, userID, content, role} = await request.json();
 
-        const sql = `INSERT INTO messages (chat_id, content, role, created_at) VALUES (${chatId}, '${content}', '${role}', NOW())`;
+        const sql = `INSERT INTO messages (id, user_id, content, role, created_at) VALUES (${chatId}, ${userID}, '${content}', '${role}', NOW())`;
 
         await pool.query(sql);
 
