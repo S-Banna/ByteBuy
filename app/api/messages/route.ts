@@ -1,1 +1,40 @@
-// THIS WILL BE USED TO POST A MESSAGE
+import {Pool} from "pg";
+import {NextResponse} from "next/server";
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+
+export async function GET(request: Request) {
+    try {
+        const { chatID } = await request.json();
+
+        const sql = `SELECT id, content, role FROM messages WHERE chat_id = ${chatID} ORDER BY created_at ASC;`;
+    
+        const { rows } = await pool.query(sql);
+
+        return NextResponse.json(rows);
+    } catch (error) {
+        console.error("Error fetching messages:", error);
+        return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
+    }
+
+}
+
+export async function POST(request: Request) {
+    try {
+        const {id, chatId, content, role} = await request.json();
+
+        const sql = `INSERT INTO messages (id, chat_id, content, role, created_at) VALUES (${id}, ${chatId}, '${content}', '${role}', NOW())`;
+
+        await pool.query(sql);
+
+        return NextResponse.json({ message: "Message added successfully" });
+    } catch (error) {
+        console.error("Error adding message:", error);
+        return NextResponse.json({ error: "Failed to add message" }, { status: 500 });
+    }
+}
