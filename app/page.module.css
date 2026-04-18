@@ -177,8 +177,9 @@
   align-self: flex-end;
   max-width: 100%;
   padding: 12px 16px;
+  margin-left: 20px;
   border-radius: 30px 30px 5px 30px;
-  font-size: 20px;
+  font-size: 19px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -188,22 +189,12 @@
   align-self: flex-start;
   max-width: 100%;
   padding: 12px 16px;
+  margin-right: 20px;
   border-radius: 30px 30px 30px 5px;
-  font-size: 20px;
-  white-space: pre-wrap;
+  font-size: 19px;
 }
 .messageBot p {
     margin: 0;
-}
-.messageBot li > p {
-    display: inline;
-}
-.messageBot ul, .messageBot ol {
-    margin: 4px 0;
-    padding-left: 20px;
-}
-.messageBot li {
-    margin: 2px 0;
 }
 .chatArea {
   position: fixed;
