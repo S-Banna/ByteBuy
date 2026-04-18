@@ -192,6 +192,9 @@
   font-size: 20px;
   white-space: pre-wrap;
 }
+.messageBot p {
+    margin: 0;
+}
 .chatArea {
   position: fixed;
   bottom: 12.1%;

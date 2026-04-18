@@ -259,6 +259,11 @@ export default function Page() {
                     Login
                 </button>
             )}
+            {isLoggedIn && (
+                <div className={`${styles.loginBtn} ${styles[theme]}`}>
+                    Signed in
+                </div>
+            )}
 
             {/* Login popup */}
             {showLoginPopup && (
