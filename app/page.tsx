@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import styles from "./page.module.css";
+import ReactMarkdown from "react-markdown";
 
 interface ChatMessage {
     role: "user" | "bot";
@@ -197,7 +198,10 @@ export default function Page() {
                             <div
                                 key={i}
                                 className={msg.role === "user" ? styles.messageUser : styles.messageBot}>
-                                {msg.text}
+                                {msg.role === "bot"
+                                    ? <ReactMarkdown>{msg.text}</ReactMarkdown>
+                                    : msg.text
+                                }
                             </div>
                         ))}
                         <div ref={messagesEndRef} />
