@@ -37,14 +37,31 @@ export default function Page() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             });
+
             if (res.ok) {
                 setIsLoggedIn(true);
                 setShowLoginPopup(false);
                 setLoginError("");
+                return;
+            }
+
+            // login failed — try to create account with same credentials
+            const signupRes = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (signupRes.ok) {
+                setIsLoggedIn(true);
+                setShowLoginPopup(false);
+                setLoginError("");
             } else {
+                // signup also failed — email exists but wrong password
                 const data = await res.json();
                 setLoginError(data.error ?? "Invalid credentials");
             }
+
         } catch {
             setLoginError("Network error");
         }
@@ -68,7 +85,7 @@ export default function Page() {
         // later will add access to allow one message (no chat history or follow ups unless logged in)
         if (!isLoggedIn) { setShowLoginPopup(true); return; }
 
-        
+
         if (textboxValue.trim() === "") return;
         if (iconState === "loading") return;
 
@@ -243,7 +260,7 @@ export default function Page() {
 
                         <input
                             type="text"
-                            placeholder="Email (admin)"
+                            placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleLogin()}
@@ -252,7 +269,7 @@ export default function Page() {
 
                         <input
                             type="password"
-                            placeholder="Password (admin)"
+                            placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleLogin()}
