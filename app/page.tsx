@@ -62,47 +62,60 @@ export default function Page() {
         setTheme((prev) => (prev === "dark" ? "light" : "dark"));
     }
 
+
     async function clearMain() {
         // for now, user must be logged in to use the site
         // later will add access to allow one message (no chat history or follow ups unless logged in)
         if (!isLoggedIn) { setShowLoginPopup(true); return; }
 
+        
         if (textboxValue.trim() === "") return;
         if (iconState === "loading") return;
 
         setIconState("loading");
-
         const userText = textboxValue;
-
-        const nextMessages: ChatMessage[] = [
-            ...messages,
-            { role: "user", text: userText }
-        ];
-        setMessages(nextMessages);
+        setMessages((prev) => [...prev, { role: "user", text: userText }]);
         setTextboxValue("");
         setShowMain(true);
 
         try {
             const res = await fetch("/api/chat", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    message: userText,
-                    history,    // send entire chat history: TB replaced with summaries
-                }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userText, history }),
             });
 
-            const data = await res.json();
+            if (!res.body) throw new Error("No response body");
 
-            const reply = data.reply;
-            setMessages((prev) => [...prev, { role: "bot", text: reply }]);
+            // add an empty bot message we'll fill in token by token
+            setMessages((prev) => [...prev, { role: "bot", text: "" }]);
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let fullReply = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const token = decoder.decode(value, { stream: true });
+                fullReply += token;
+
+                // update the last message (the bot one) in place
+                setMessages((prev) => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = { role: "bot", text: fullReply };
+                    return updated;
+                });
+            }
+
+            // only update history once the full reply is done
             setHistory((prev) => [
                 ...prev,
                 { role: "user", content: userText },
-                { role: "assistant", content: reply }
+                { role: "assistant", content: fullReply }
             ]);
+
             setIconState("send");
 
         } catch (error) {
