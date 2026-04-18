@@ -31,6 +31,18 @@ export default function Page() {
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        fetch("/api/auth/me")
+            .then((res) => res.ok ? res.json() : null)
+            .then((data) => {
+                if (data?.id) {
+                    setIsLoggedIn(true);
+                    setShowLoginPopup(false);
+                }
+            })
+            .catch(() => {});
+    }, []);
+
     const handleLogin = async () => {
         try {
             const res = await fetch("/api/auth/login", {
