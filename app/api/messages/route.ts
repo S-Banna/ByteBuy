@@ -1,40 +1,23 @@
-import {Pool} from "pg";
-import {NextResponse} from "next/server";
-
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+import { pool } from "@/lib/db";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    try {
-        const { chatID } = await request.json();
+    const { searchParams } = new URL(request.url);
+    const chatId = searchParams.get("chatId");
+    if (!chatId) return NextResponse.json({ error: "Missing chatId" }, { status: 400 });
 
-        const sql = `SELECT id, content, role FROM messages WHERE chat_id = ${chatID} ORDER BY created_at ASC;`;
-    
-        const { rows } = await pool.query(sql);
-
-        return NextResponse.json(rows);
-    } catch (error) {
-        console.error("Error fetching messages:", error);
-        return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
-    }
-
+    const { rows } = await pool.query(
+        `SELECT id, content, role FROM messages WHERE chat_id = $1 ORDER BY created_at ASC`,
+        [chatId]
+    );
+    return NextResponse.json(rows);
 }
 
 export async function POST(request: Request) {
-    try {
-        const {id, chatId, content, role} = await request.json();
-
-        const sql = `INSERT INTO messages (id, chat_id, content, role, created_at) VALUES (${id}, ${chatId}, '${content}', '${role}', NOW())`;
-
-        await pool.query(sql);
-
-        return NextResponse.json({ message: "Message added successfully" });
-    } catch (error) {
-        console.error("Error adding message:", error);
-        return NextResponse.json({ error: "Failed to add message" }, { status: 500 });
-    }
+    const { chatId, content, role } = await request.json();
+    await pool.query(
+        `INSERT INTO messages (chat_id, content, role, created_at) VALUES ($1, $2, $3, NOW())`,
+        [chatId, content, role]
+    );
+    return NextResponse.json({ message: "Message added successfully" });
 }
