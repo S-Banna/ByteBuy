@@ -14,9 +14,10 @@ export async function POST(req: Request) {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // for now, sign ins only for "buyer" role
     const result = await pool.query(
-      "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email",
-      [email, hashedPassword]
+      "INSERT INTO users (email, password_hash, role) VALUES ($1, $2, $3) RETURNING id, email",
+      [email, hashedPassword, "buyer"]
     );
 
     const user = result.rows[0];
