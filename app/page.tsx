@@ -21,7 +21,7 @@ export default function Page() {
     const [showMain, setShowMain] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [textboxValue, setTextboxValue] = useState("");
-    const [previousResponseId, setPreviousResponseId] = useState<string | null>(null);
+    const [history, setHistory] = useState<{role: "user"|"assistant", content: string}[]>([]);
 
     const imgSrc =
         iconState === "loading"
@@ -30,13 +30,23 @@ export default function Page() {
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const handleLogin = () => {
-        if (email === "admin" && password === "admin") {
-            setIsLoggedIn(true);
-            setShowLoginPopup(false);
-            setLoginError("");
-        } else {
-            setLoginError("Invalid credentials. Use admin/admin");
+    const handleLogin = async () => {
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            if (res.ok) {
+                setIsLoggedIn(true);
+                setShowLoginPopup(false);
+                setLoginError("");
+            } else {
+                const data = await res.json();
+                setLoginError(data.error ?? "Invalid credentials");
+            }
+        } catch {
+            setLoginError("Network error");
         }
     };
 
@@ -53,6 +63,10 @@ export default function Page() {
     }
 
     async function clearMain() {
+        // for now, user must be logged in to use the site
+        // later will add access to allow one message (no chat history or follow ups unless logged in)
+        if (!isLoggedIn) { setShowLoginPopup(true); return; }
+
         if (textboxValue.trim() === "") return;
         if (iconState === "loading") return;
 
@@ -76,18 +90,19 @@ export default function Page() {
                 },
                 body: JSON.stringify({
                     message: userText,
-                    previousMessageId: previousResponseId,
+                    history,    // send entire chat history: TB replaced with summaries
                 }),
             });
 
             const data = await res.json();
 
-            setMessages((prev) => [
+            const reply = data.reply;
+            setMessages((prev) => [...prev, { role: "bot", text: reply }]);
+            setHistory((prev) => [
                 ...prev,
-                { role: "bot", text: data.reply }
+                { role: "user", content: userText },
+                { role: "assistant", content: reply }
             ]);
-
-            setPreviousResponseId(data.responseId);
             setIconState("send");
 
         } catch (error) {
