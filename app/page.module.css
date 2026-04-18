@@ -465,3 +465,36 @@
   background-color: #d4d4d4;
   border-color: #9b9b9b;
 }
+
+/* sidebar */
+.chatHistoryBtn {
+    display: block;
+    width: 90%;
+    margin: 5px auto;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    background: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.dark .chatHistoryBtn {
+    color: rgb(196, 196, 196);
+    background-color: rgb(73, 73, 73);
+}
+.dark .chatHistoryBtn:hover, .dark .chatHistoryBtnActive {
+    background-color: rgb(60, 60, 60);
+    border-color: rgb(80, 80, 80);
+}
+.light .chatHistoryBtn {
+    color: rgb(50, 50, 50);
+    background-color: rgb(216, 216, 216);
+}
+.light .chatHistoryBtn:hover, .light .chatHistoryBtnActive {
+    background-color: rgb(200, 200, 200);
+    border-color: rgb(170, 170, 170);
+}

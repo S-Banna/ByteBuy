@@ -5,13 +5,9 @@ export async function GET(req: NextRequest) {
     const userId = req.cookies.get("user_id")?.value;
     if (!userId) return NextResponse.json({ error: "Not logged in" }, { status: 401 });
 
-    const { searchParams } = new URL(req.url);
-    const chatId = searchParams.get("chatId");
-    if (!chatId) return NextResponse.json({ error: "Missing chatId" }, { status: 400 });
-
     const { rows } = await pool.query(
-        `SELECT id, content, role FROM messages WHERE chat_id = $1 ORDER BY created_at ASC`,
-        [chatId]
+        `SELECT id, title, created_at FROM chats WHERE user_id = $1 ORDER BY created_at DESC`,
+        [userId]
     );
     return NextResponse.json(rows);
 }
@@ -20,10 +16,10 @@ export async function POST(req: NextRequest) {
     const userId = req.cookies.get("user_id")?.value;
     if (!userId) return NextResponse.json({ error: "Not logged in" }, { status: 401 });
 
-    const { chatId, content, role } = await req.json();
-    await pool.query(
-        `INSERT INTO messages (chat_id, content, role, created_at) VALUES ($1, $2, $3, NOW())`,
-        [chatId, content, role]
+    const { title } = await req.json();
+    const { rows } = await pool.query(
+        `INSERT INTO chats (user_id, title, created_at) VALUES ($1, $2, NOW()) RETURNING id, title`,
+        [userId, title]
     );
-    return NextResponse.json({ ok: true });
+    return NextResponse.json(rows[0]);
 }

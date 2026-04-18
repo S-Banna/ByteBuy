@@ -17,6 +17,9 @@ export default function Page() {
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState("");
 
+    const [currentChatId, setCurrentChatId] = useState<number | null>(null);
+    const [chats, setChats] = useState<{id: number, title: string}[]>([]);
+
     const [iconState, setIconState] = useState("send");
     const [theme, setTheme] = useState<"dark" | "light">("dark");
     const [showMain, setShowMain] = useState(false);
@@ -38,6 +41,7 @@ export default function Page() {
                 if (data?.id) {
                     setIsLoggedIn(true);
                     setShowLoginPopup(false);
+                    loadChats();
                 }
             })
             .catch(() => {});
@@ -55,6 +59,7 @@ export default function Page() {
                 setIsLoggedIn(true);
                 setShowLoginPopup(false);
                 setLoginError("");
+                loadChats();
                 return;
             }
 
@@ -78,6 +83,34 @@ export default function Page() {
         } catch {
             setLoginError("Network error");
         }
+    };
+
+    const loadChats = async () => {
+        const res = await fetch("/api/chats");
+        if (res.ok) {
+            const data = await res.json();
+            setChats(data);
+        }
+    };
+
+    const loadChat = async (chatId: number) => {
+        const res = await fetch(`/api/messages?chatId=${chatId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const loaded: ChatMessage[] = data.map((m: any) => ({
+            role: m.role === "user" ? "user" : "bot",
+            text: m.content
+        }));
+        const loadedHistory = data.map((m: any) => ({
+            role: m.role as "user" | "assistant",
+            content: m.content
+        }));
+
+        setMessages(loaded);
+        setHistory(loadedHistory);
+        setCurrentChatId(chatId);
+        setShowMain(true);
     };
 
     const scrollToBottom = () => {
@@ -146,6 +179,30 @@ export default function Page() {
                 { role: "assistant", content: fullReply }
             ]);
 
+            let chatId = currentChatId;
+            if (!chatId) {
+                const title = userText.slice(0, 28) + (userText.length > 28 ? "..." : "");
+                const chatRes = await fetch("/api/chats", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title })
+                });
+                const chat = await chatRes.json();
+                chatId = chat.id;
+                setCurrentChatId(chatId);
+                setChats((prev) => [chat, ...prev]);
+            }
+            await fetch("/api/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chatId, content: userText, role: "user" })
+            });
+            await fetch("/api/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chatId, content: fullReply, role: "assistant" })
+            });
+
             setIconState("send");
 
         } catch (error) {
@@ -164,10 +221,17 @@ export default function Page() {
             <div className={`${styles.page} ${styles[theme]}`}>
                 <div className={styles.side}>
                     <p className={styles.inv}>
-                        <span className={styles.invSpan}>
-                            User Chat History
-                        </span>
+                        <span className={styles.invSpan}>Chat History</span>
                     </p>
+                    {chats.map((chat) => (
+                        <button
+                            key={chat.id}
+                            onClick={() => loadChat(chat.id)}
+                            className={`${styles.chatHistoryBtn} ${currentChatId === chat.id ? styles.chatHistoryBtnActive : ""}`}
+                        >
+                            {chat.title}
+                        </button>
+                    ))}
                 </div>
 
                 <div className={styles.main}>
