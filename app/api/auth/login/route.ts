@@ -23,8 +23,8 @@ export async function POST(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
+        { error: "User not found" },
+        { status: 404 }  
       );
     }
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     response.cookies.set("user_id", user.id, {
       httpOnly: true,   
       secure: true,     
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
     });
 

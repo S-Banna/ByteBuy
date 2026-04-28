@@ -63,21 +63,38 @@ export default function Page() {
                 return;
             }
 
-            // login failed — try to create account with same credentials
+            // 401 = email exists, wrong password — stop here
+            if (res.status === 401) {
+                setLoginError("Incorrect password.");
+                return;
+            }
+
+            // anything else = user doesn't exist, try creating account
             const signupRes = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             });
 
-            if (signupRes.ok) {
+            if (!signupRes.ok) {
+                setLoginError("Could not create account.");
+                return;
+            }
+
+            // signup worked — now actually log in to get the cookie set
+            const loginAfterSignup = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (loginAfterSignup.ok) {
                 setIsLoggedIn(true);
                 setShowLoginPopup(false);
                 setLoginError("");
+                loadChats();
             } else {
-                // signup also failed — email exists but wrong password
-                const data = await res.json();
-                setLoginError(data.error ?? "Invalid credentials");
+                setLoginError("Account created but login failed. Try again.");
             }
 
         } catch {
@@ -232,6 +249,16 @@ export default function Page() {
                             {chat.title}
                         </button>
                     ))}
+                    <button
+                        className={`${styles.chatHistoryBtn} ${styles.newChatBtn}`}
+                        onClick={() => {
+                            setMessages([]);
+                            setHistory([]);
+                            setCurrentChatId(null);
+                            setShowMain(false);
+                        }}>
+                        + New Chat
+                    </button>
                 </div>
 
                 <div className={styles.main}>
