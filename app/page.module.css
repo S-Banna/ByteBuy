@@ -1,6 +1,5 @@
 /* base.css */
 .body {
-  font-family: sans-serif;
   margin: 0;
 }
 .page {
@@ -17,25 +16,24 @@
   height: 68px;
 }
 .ByteBuy {
+  font-family: 'Inter', sans-serif;
   font-size: 30%;
+  font-weight: 500;
   margin-left: 10px;
-  margin-top: 10px;
-  width: 112px;
-  height: 55%;
-  border: solid;
-  border-width: 10px;
-  border-radius: 15px;
-  outline: solid;
-  outline-width: 1px;
+  margin-top: 6px;
+  border: none;
+  outline: none;
+  letter-spacing: 1px;
 }
 .themeBtn {
   float: right;
   margin-top: 22px;
-  margin-left: 10px;
+  margin-left: auto;
+  margin-right: 130px;
   height: 30px;
   width: 50px;
   border: solid;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 20px;
   cursor: pointer; 
 }
@@ -59,14 +57,14 @@
 .side {
   overflow: scroll;
   width: 25%;
-  height: 91.5%;
+  height: 92.5%;
   float: right;
   border: solid;
   border-width: 10px;
-  border-radius: 25px;
-  margin-top: 28px;
+  border-radius: 10px;
+  margin-top: 18px;
   margin-right: 5px;
-  outline-width: 1px;
+  outline-width: 1.5px;
   outline-style: solid;
 }
 .inventoryItem {
@@ -137,9 +135,9 @@
   width: 90%;
   height: 25px;
   border-width: 20px;
-  border-radius: 30px 0px 0px 30px;
+  border-radius: 10px 0px 0px 10px;
   outline: solid;
-  outline-width: 1px;
+  outline-width: 2px;
 }
 .send {
   height: 100%;
@@ -148,9 +146,9 @@
   padding-bottom: 9px;
   border: solid;
   border-width: 20px;
-  border-radius: 0px 30px 30px 0px;
+  border-radius: 0px 10px 10px 0px;
   outline: solid;
-  outline-width: 1px;
+  outline-width: 2px;
   display: flex;
   justify-content: center;
   cursor: pointer;  
@@ -215,12 +213,12 @@
 /* ── Login / Popup ── */
 .loginBtn {
   position: fixed;
-  margin-right: 27%;
-  margin-top: 1%;
+  margin-right: 26.8%;
+  margin-top: 2px;
   top: 1rem;
   right: 1rem;
   padding: 0.5rem 1.2rem;
-  border: 1px solid ;
+  border: 2px solid ;
   border-radius: 15px;
   cursor: pointer;
   z-index: 999;
@@ -295,7 +293,7 @@
 .dark .ByteBuy {
   color: rgb(207, 207, 207);
   border-color: rgb(48, 48, 48);
-  background-color: rgb(48, 48, 48);
+  background-color: transparent;
   text-shadow: 1px 1px 5px rgb(145, 145, 145);
   outline-color: rgb(73, 73, 73);
 }
@@ -311,7 +309,7 @@
 .dark .side {
   background-color: rgb(26, 26, 26);
   border-color: rgb(48, 48, 48);
-  outline-color: rgb(73, 73, 73);
+  outline-color: rgb(69, 69, 69);
 }
 .dark .inventoryItem {
   background-color: rgb(48, 48, 48);
@@ -362,6 +360,10 @@
 .loginBtn.dark:hover{
   background-color: rgb(73, 73, 73);
 }
+.loginBtn.dark.noHover:hover {
+  background-color: rgb(48, 48, 48) !important;
+  cursor: default;
+}
 .popupBox.dark {
   background-color: rgb(33, 33, 33);
 }
@@ -385,25 +387,25 @@
 }
 .light .ByteBuy {
   color: rgb(73, 73, 73);
-  border-color: rgb(213, 213, 213);
-  background-color: rgb(213, 213, 213);
-  outline-color: rgb(140, 140, 140);
+  border-color: rgb(230, 230, 230);
+  background-color: transparent;
+  outline-color: rgb(200, 200, 200);
 }
 .light .themeBtn {
-  background-color: rgb(213, 213, 213);
+  background-color: rgb(230, 230, 230);
   color: rgb(73, 73, 73);
-  border-color: rgb(140, 140, 140);
+  border-color: rgb(200, 200, 200);
 }
 .light .themeBtn:hover {
-  background-color: rgb(166, 166, 166);
+  background-color: rgb(200, 200, 200);
 }
 .light .side {
-  background-color: rgb(237, 237, 237);
-  border-color: rgb(213, 213, 213);
-  outline-color: rgb(140, 140, 140);
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(230, 230, 230);
+  outline-color: rgb(200, 200, 200);
 }
 .light .inventoryItem {
-  background-color: rgb(213, 213, 213);
+  background-color: rgb(230, 230, 230);
 }
 .light .laptopImage {
   border-color: rgb(137, 137, 137);
@@ -415,28 +417,28 @@
   color: rgb(0, 0, 0);
 }
 .light .inv {
-  background-color: rgb(213, 213, 213);
+  background-color: rgb(230, 230, 230);
 }
 .light .invSpan {
   color: rgb(0, 0, 0);
 }
 .light .textbox {
-  background-color: rgb(213, 213, 213);
+  background-color: rgb(230, 230, 230);
   color: rgb(73, 73, 73);
-  border-color: rgb(213, 213, 213);
-  outline-color: rgb(124, 124, 124);
+  border-color: rgb(230, 230, 230);
+  outline-color: rgb(200, 200, 200);
 }
 .light .send {
   color: rgb(62, 62, 62);
-  background-color: rgb(213, 213, 213);
-  border-color: rgb(213, 213, 213);
-  outline-color: rgb(124, 124, 124);
+  background-color: rgb(230, 230, 230);
+  border-color: rgb(230, 230, 230);
+  outline-color: rgb(200, 200, 200);
 }
 .light .logotext {
   color: rgb(73, 73, 73);
 }
 .light .messageUser {
-  background-color: rgb(213, 213, 213);
+  background-color: rgb(230, 230, 230);
   color: rgb(49, 49, 49);
 }
 .light .messageBot {
@@ -448,11 +450,15 @@
   border-color: rgb(176, 176, 176);
 }
 .loginBtn.light{
-  background-color: rgb(213, 213, 213);
-  border-color: rgb(140, 140, 140);
+  background-color: rgb(230, 230, 230);
+  border-color: rgb(200, 200, 200);
 }
 .loginBtn.light:hover{
-  background-color: rgb(166, 166, 166);
+  background-color: rgb(200, 200, 200);
+}
+.loginBtn.light.noHover:hover {
+  background-color: rgb(230, 230, 230) !important;
+  cursor: default;
 }
 .light .popupClose {
   color: #000;
@@ -472,8 +478,24 @@
     width: 90%;
     margin: 5px auto;
     padding: 10px 14px;
-    border-radius: 12px;
-    border: 1px solid transparent;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    background: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.newChatBtn{
+    display: block;
+    width: 109px;
+    margin: 5px auto;
+    padding: 10px 14px;
+    border-radius: 15px;
+    border: 1.5px solid transparent;
     text-align: left;
     cursor: pointer;
     font-size: 14px;
@@ -486,15 +508,33 @@
     color: rgb(196, 196, 196);
     background-color: rgb(73, 73, 73);
 }
+.dark .newChatBtn {
+    color: rgb(196, 196, 196);
+    background-color: rgb(48, 48, 48);
+    border-color: rgb(69, 69, 69);
+}
 .dark .chatHistoryBtn:hover, .dark .chatHistoryBtnActive {
     background-color: rgb(60, 60, 60);
+    border-color: rgb(80, 80, 80);
+}
+.dark .newChatBtn:hover{
+    background-color: rgb(73, 73, 73);
     border-color: rgb(80, 80, 80);
 }
 .light .chatHistoryBtn {
     color: rgb(50, 50, 50);
     background-color: rgb(216, 216, 216);
 }
+.light .newChatBtn {
+    color: rgb(50, 50, 50);
+    background-color: rgb(230, 230, 230);
+    border-color: rgb(205, 205, 205);
+}
 .light .chatHistoryBtn:hover, .light .chatHistoryBtnActive {
     background-color: rgb(200, 200, 200);
-    border-color: rgb(170, 170, 170);
+    border-color: rgb(200, 200, 200);
+}
+.light .newChatBtn:hover{
+    background-color: rgb(200, 200, 200);
+    border-color: rgb(200, 200, 200);
 }

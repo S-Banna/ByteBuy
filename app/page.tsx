@@ -21,7 +21,7 @@ export default function Page() {
     const [chats, setChats] = useState<{id: number, title: string}[]>([]);
 
     const [iconState, setIconState] = useState("send");
-    const [theme, setTheme] = useState<"dark" | "light">("dark");
+    const [theme, setTheme] = useState<"dark" | "light">("light");
     const [showMain, setShowMain] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [textboxValue, setTextboxValue] = useState("");
@@ -230,6 +230,7 @@ export default function Page() {
 
     return (
         <>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet" />
             <style>{`
                 body { margin: 0; font-family: sans-serif; background-color: ${theme === "dark" ? "rgb(33,33,33)" : "rgb(255,255,255)"}; }
                 ::-webkit-scrollbar { display: none; }
@@ -250,7 +251,7 @@ export default function Page() {
                         </button>
                     ))}
                     <button
-                        className={`${styles.chatHistoryBtn} ${styles.newChatBtn}`}
+                        className={`${styles.newChatBtn}`}
                         onClick={() => {
                             setMessages([]);
                             setHistory([]);
@@ -351,7 +352,7 @@ export default function Page() {
                 </button>
             )}
             {isLoggedIn && (
-                <div className={`${styles.loginBtn} ${styles[theme]}`}>
+                <div className={`${styles.loginBtn} ${styles[theme]} ${isLoggedIn ? styles.noHover : ''}`}>
                     Signed in
                 </div>
             )}
